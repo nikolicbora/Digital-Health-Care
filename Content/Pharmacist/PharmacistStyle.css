@@ -1,0 +1,94 @@
+﻿body {
+    background-color: #ccffcc;
+}
+
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: lightgreen; /*#f5f5f5;*/
+    border: 1px solid #056705;
+    border-radius: 16px;
+}
+
+#headerLogin {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /*margin-bottom:10px;*/
+    background-color: #28a745;
+    color: white;
+}
+
+#sectionLogin {
+    background-color: #f5f5f5;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #ccffcc;
+}
+
+#footerLogin {
+    background-color: #28a745;
+    text-align: center;
+    color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+a.nav-link {
+    color: white;
+}
+
+    a.nav-link.nav-item:hover {
+        color: forestgreen;
+    }
+
+    a.nav-link.nav-item:focus {
+        color: forestgreen;
+    }
+
+.panel-default {
+    background-color: #04d716;
+}
+
+.panel {
+    margin-bottom: 60px;
+    background-color: #fff;
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+.panel-group {
+    margin-bottom: 5px;
+}
+
+.panel-heading {
+    padding: 10px 15px;
+    border-bottom: 1px solid;
+}
+
+.panel-title {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 24px;
+    color: white;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+#recepti tbody tr td {
+    background-color: lawngreen;
+    /*white-space: nowrap;*/
+    /*padding: 10px 10px 10px 10px;*/
+}
+#recepti  thead tr
+{
+    background-color:limegreen;
+}
+#recepti  thead tr th 
+{
+        /*white-space: nowrap;*/
+}
+
+
