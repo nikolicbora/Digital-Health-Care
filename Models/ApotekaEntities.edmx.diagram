@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="74c93c76928745998c971241fcae3264" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Administrator" Width="1.5" PointX="6.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Apotekar" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Klinika" Width="1.5" PointX="8.125" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Lek" Width="1.5" PointX="0.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Lekar" Width="1.5" PointX="10.625" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Pacijent" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Recept" Width="1.5" PointX="4.625" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Termin" Width="1.5" PointX="7.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Tip" Width="1.5" PointX="7.875" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Zamena" Width="1.5" PointX="5.5" PointY="13.125" IsExpanded="true" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Recept_Apotekar" ManuallyRouted="false" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Lekar_Klinika" ManuallyRouted="false" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Lek_Tip" ManuallyRouted="false" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Recept_Lek" ManuallyRouted="false" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Zamena_Lek1" ManuallyRouted="false" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Zamena_Lek2" ManuallyRouted="false" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Recept_Lekar" ManuallyRouted="false" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Termin_Lekar" ManuallyRouted="false" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Recept_Pacijent" ManuallyRouted="false" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Termin_Pacijent" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DigitalnoZdravstvoModel.Apoteka" Width="1.5" PointX="3" PointY="0.5" />
+        <AssociationConnector Association="DigitalnoZdravstvoModel.FK_Apotekar_Apoteka" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

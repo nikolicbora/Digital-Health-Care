@@ -1,0 +1,854 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DigitalnoZdravstvoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="text" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Legalan" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Apoteka">
+          <Key>
+            <PropertyRef Name="idApoteka" />
+          </Key>
+          <Property Name="idApoteka" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lat" Type="numeric" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="lon" Type="numeric" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="naziv" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Apotekar">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="text" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DatumRodjenja" Type="date" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idApoteka" Type="int" Nullable="false" />
+          <Property Name="Legalan" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Klinika">
+          <Key>
+            <PropertyRef Name="idKlinika" />
+          </Key>
+          <Property Name="idKlinika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lek">
+          <Key>
+            <PropertyRef Name="idLek" />
+          </Key>
+          <Property Name="idLek" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NaRecept" Type="int" Nullable="false" />
+          <Property Name="Proizvodjac" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cena" Type="real" Nullable="false" />
+          <Property Name="idTip" Type="int" Nullable="false" />
+          <Property Name="SnizenjeRecept" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lekar">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DatumRodjenja" Type="date" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sprat" Type="int" Nullable="false" />
+          <Property Name="Prostorija" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idKlinika" Type="int" Nullable="false" />
+          <Property Name="Legalan" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pacijent">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="text" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DatumRodjenja" Type="date" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="JMBG" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BLK" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BZK" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LBO" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Osiguran" Type="int" Nullable="false" />
+          <Property Name="Hronicar" Type="int" Nullable="false" />
+          <Property Name="Legalan" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Recept">
+          <Key>
+            <PropertyRef Name="idRecept" />
+          </Key>
+          <Property Name="idRecept" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DatumIzdavanja" Type="datetime" Nullable="false" />
+          <Property Name="DoziranjePrepodne" Type="int" />
+          <Property Name="DoziranjePopodne" Type="int" />
+          <Property Name="DoziranjeUvece" Type="int" />
+          <Property Name="DoziranjeSirup" Type="nvarchar" MaxLength="50" />
+          <Property Name="idLek" Type="int" Nullable="false" />
+          <Property Name="idPacijent" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idLekar" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Obradio" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Termin">
+          <Key>
+            <PropertyRef Name="idTermin" />
+          </Key>
+          <Property Name="idTermin" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TerminPocetak" Type="datetime" Nullable="false" />
+          <Property Name="TerminKraj" Type="datetime" Nullable="false" />
+          <Property Name="idPacijent" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idLekar" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Opis" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tip">
+          <Key>
+            <PropertyRef Name="idTip" />
+          </Key>
+          <Property Name="idTip" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zamena">
+          <Key>
+            <PropertyRef Name="idZamena" />
+          </Key>
+          <Property Name="idZamena" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idLek1" Type="int" Nullable="false" />
+          <Property Name="idLek2" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Apotekar_Apoteka">
+          <End Role="Apoteka" Type="Self.Apoteka" Multiplicity="1" />
+          <End Role="Apotekar" Type="Self.Apotekar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apoteka">
+              <PropertyRef Name="idApoteka" />
+            </Principal>
+            <Dependent Role="Apotekar">
+              <PropertyRef Name="idApoteka" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lek_Tip">
+          <End Role="Tip" Type="Self.Tip" Multiplicity="1" />
+          <End Role="Lek" Type="Self.Lek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tip">
+              <PropertyRef Name="idTip" />
+            </Principal>
+            <Dependent Role="Lek">
+              <PropertyRef Name="idTip" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lekar_Klinika">
+          <End Role="Klinika" Type="Self.Klinika" Multiplicity="1" />
+          <End Role="Lekar" Type="Self.Lekar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klinika">
+              <PropertyRef Name="idKlinika" />
+            </Principal>
+            <Dependent Role="Lekar">
+              <PropertyRef Name="idKlinika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recept_Apotekar">
+          <End Role="Apotekar" Type="Self.Apotekar" Multiplicity="0..1" />
+          <End Role="Recept" Type="Self.Recept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apotekar">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Recept">
+              <PropertyRef Name="Obradio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recept_Lek">
+          <End Role="Lek" Type="Self.Lek" Multiplicity="1" />
+          <End Role="Recept" Type="Self.Recept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lek">
+              <PropertyRef Name="idLek" />
+            </Principal>
+            <Dependent Role="Recept">
+              <PropertyRef Name="idLek" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recept_Lekar">
+          <End Role="Lekar" Type="Self.Lekar" Multiplicity="1" />
+          <End Role="Recept" Type="Self.Recept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lekar">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Recept">
+              <PropertyRef Name="idLekar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recept_Pacijent">
+          <End Role="Pacijent" Type="Self.Pacijent" Multiplicity="1" />
+          <End Role="Recept" Type="Self.Recept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacijent">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Recept">
+              <PropertyRef Name="idPacijent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termin_Lekar">
+          <End Role="Lekar" Type="Self.Lekar" Multiplicity="1" />
+          <End Role="Termin" Type="Self.Termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lekar">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Termin">
+              <PropertyRef Name="idLekar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termin_Pacijent">
+          <End Role="Pacijent" Type="Self.Pacijent" Multiplicity="1" />
+          <End Role="Termin" Type="Self.Termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacijent">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Termin">
+              <PropertyRef Name="idPacijent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zamena_Lek1">
+          <End Role="Lek" Type="Self.Lek" Multiplicity="1" />
+          <End Role="Zamena" Type="Self.Zamena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lek">
+              <PropertyRef Name="idLek" />
+            </Principal>
+            <Dependent Role="Zamena">
+              <PropertyRef Name="idLek1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zamena_Lek2">
+          <End Role="Lek" Type="Self.Lek" Multiplicity="1" />
+          <End Role="Zamena" Type="Self.Zamena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lek">
+              <PropertyRef Name="idLek" />
+            </Principal>
+            <Dependent Role="Zamena">
+              <PropertyRef Name="idLek2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DigitalnoZdravstvoModelStoreContainer">
+          <EntitySet Name="Administrator" EntityType="Self.Administrator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Apoteka" EntityType="Self.Apoteka" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Apotekar" EntityType="Self.Apotekar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Klinika" EntityType="Self.Klinika" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lek" EntityType="Self.Lek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lekar" EntityType="Self.Lekar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pacijent" EntityType="Self.Pacijent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recept" EntityType="Self.Recept" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termin" EntityType="Self.Termin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tip" EntityType="Self.Tip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zamena" EntityType="Self.Zamena" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Apotekar_Apoteka" Association="Self.FK_Apotekar_Apoteka">
+            <End Role="Apoteka" EntitySet="Apoteka" />
+            <End Role="Apotekar" EntitySet="Apotekar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lek_Tip" Association="Self.FK_Lek_Tip">
+            <End Role="Tip" EntitySet="Tip" />
+            <End Role="Lek" EntitySet="Lek" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lekar_Klinika" Association="Self.FK_Lekar_Klinika">
+            <End Role="Klinika" EntitySet="Klinika" />
+            <End Role="Lekar" EntitySet="Lekar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recept_Apotekar" Association="Self.FK_Recept_Apotekar">
+            <End Role="Apotekar" EntitySet="Apotekar" />
+            <End Role="Recept" EntitySet="Recept" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recept_Lek" Association="Self.FK_Recept_Lek">
+            <End Role="Lek" EntitySet="Lek" />
+            <End Role="Recept" EntitySet="Recept" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recept_Lekar" Association="Self.FK_Recept_Lekar">
+            <End Role="Lekar" EntitySet="Lekar" />
+            <End Role="Recept" EntitySet="Recept" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recept_Pacijent" Association="Self.FK_Recept_Pacijent">
+            <End Role="Pacijent" EntitySet="Pacijent" />
+            <End Role="Recept" EntitySet="Recept" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termin_Lekar" Association="Self.FK_Termin_Lekar">
+            <End Role="Lekar" EntitySet="Lekar" />
+            <End Role="Termin" EntitySet="Termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termin_Pacijent" Association="Self.FK_Termin_Pacijent">
+            <End Role="Pacijent" EntitySet="Pacijent" />
+            <End Role="Termin" EntitySet="Termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zamena_Lek1" Association="Self.FK_Zamena_Lek1">
+            <End Role="Lek" EntitySet="Lek" />
+            <End Role="Zamena" EntitySet="Zamena" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zamena_Lek2" Association="Self.FK_Zamena_Lek2">
+            <End Role="Lek" EntitySet="Lek" />
+            <End Role="Zamena" EntitySet="Zamena" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DigitalnoZdravstvoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Legalan" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Apotekar">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DatumRodjenja" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Legalan" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Recepts" Relationship="Self.FK_Recept_Apotekar" FromRole="Apotekar" ToRole="Recept" />
+          <Property Name="idApoteka" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Apoteka" Relationship="DigitalnoZdravstvoModel.FK_Apotekar_Apoteka" FromRole="Apotekar" ToRole="Apoteka" />
+        </EntityType>
+        <EntityType Name="Klinika">
+          <Key>
+            <PropertyRef Name="idKlinika" />
+          </Key>
+          <Property Name="idKlinika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Lekars" Relationship="Self.FK_Lekar_Klinika" FromRole="Klinika" ToRole="Lekar" />
+        </EntityType>
+        <EntityType Name="Lek">
+          <Key>
+            <PropertyRef Name="idLek" />
+          </Key>
+          <Property Name="idLek" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NaRecept" Type="Int32" Nullable="false" />
+          <Property Name="Proizvodjac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cena" Type="Single" Nullable="false" />
+          <Property Name="idTip" Type="Int32" Nullable="false" />
+          <Property Name="SnizenjeRecept" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tip" Relationship="Self.FK_Lek_Tip" FromRole="Lek" ToRole="Tip" />
+          <NavigationProperty Name="Recepts" Relationship="Self.FK_Recept_Lek" FromRole="Lek" ToRole="Recept" />
+          <NavigationProperty Name="Zamenas" Relationship="Self.FK_Zamena_Lek1" FromRole="Lek" ToRole="Zamena" />
+          <NavigationProperty Name="Zamenas1" Relationship="Self.FK_Zamena_Lek2" FromRole="Lek" ToRole="Zamena" />
+        </EntityType>
+        <EntityType Name="Lekar">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DatumRodjenja" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sprat" Type="Int32" Nullable="false" />
+          <Property Name="Prostorija" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idKlinika" Type="Int32" Nullable="false" />
+          <Property Name="Legalan" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Klinika" Relationship="Self.FK_Lekar_Klinika" FromRole="Lekar" ToRole="Klinika" />
+          <NavigationProperty Name="Recepts" Relationship="Self.FK_Recept_Lekar" FromRole="Lekar" ToRole="Recept" />
+          <NavigationProperty Name="Termins" Relationship="Self.FK_Termin_Lekar" FromRole="Lekar" ToRole="Termin" />
+        </EntityType>
+        <EntityType Name="Pacijent">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DatumRodjenja" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="JMBG" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BLK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BZK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LBO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Osiguran" Type="Int32" Nullable="false" />
+          <Property Name="Hronicar" Type="Int32" Nullable="false" />
+          <Property Name="Legalan" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Recepts" Relationship="Self.FK_Recept_Pacijent" FromRole="Pacijent" ToRole="Recept" />
+          <NavigationProperty Name="Termins" Relationship="Self.FK_Termin_Pacijent" FromRole="Pacijent" ToRole="Termin" />
+        </EntityType>
+        <EntityType Name="Recept">
+          <Key>
+            <PropertyRef Name="idRecept" />
+          </Key>
+          <Property Name="idRecept" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DatumIzdavanja" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DoziranjePrepodne" Type="Int32" />
+          <Property Name="DoziranjePopodne" Type="Int32" />
+          <Property Name="DoziranjeUvece" Type="Int32" />
+          <Property Name="DoziranjeSirup" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="idLek" Type="Int32" Nullable="false" />
+          <Property Name="idPacijent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idLekar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Obradio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Apotekar" Relationship="Self.FK_Recept_Apotekar" FromRole="Recept" ToRole="Apotekar" />
+          <NavigationProperty Name="Lek" Relationship="Self.FK_Recept_Lek" FromRole="Recept" ToRole="Lek" />
+          <NavigationProperty Name="Lekar" Relationship="Self.FK_Recept_Lekar" FromRole="Recept" ToRole="Lekar" />
+          <NavigationProperty Name="Pacijent" Relationship="Self.FK_Recept_Pacijent" FromRole="Recept" ToRole="Pacijent" />
+        </EntityType>
+        <EntityType Name="Termin">
+          <Key>
+            <PropertyRef Name="idTermin" />
+          </Key>
+          <Property Name="idTermin" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TerminPocetak" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TerminKraj" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="idPacijent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idLekar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Opis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Lekar" Relationship="Self.FK_Termin_Lekar" FromRole="Termin" ToRole="Lekar" />
+          <NavigationProperty Name="Pacijent" Relationship="Self.FK_Termin_Pacijent" FromRole="Termin" ToRole="Pacijent" />
+        </EntityType>
+        <EntityType Name="Tip">
+          <Key>
+            <PropertyRef Name="idTip" />
+          </Key>
+          <Property Name="idTip" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Leks" Relationship="Self.FK_Lek_Tip" FromRole="Tip" ToRole="Lek" />
+        </EntityType>
+        <EntityType Name="Zamena">
+          <Key>
+            <PropertyRef Name="idZamena" />
+          </Key>
+          <Property Name="idZamena" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idLek1" Type="Int32" Nullable="false" />
+          <Property Name="idLek2" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Lek" Relationship="Self.FK_Zamena_Lek1" FromRole="Zamena" ToRole="Lek" />
+          <NavigationProperty Name="Lek1" Relationship="Self.FK_Zamena_Lek2" FromRole="Zamena" ToRole="Lek" />
+        </EntityType>
+        <Association Name="FK_Recept_Apotekar">
+          <End Role="Apotekar" Type="Self.Apotekar" Multiplicity="0..1" />
+          <End Role="Recept" Type="Self.Recept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apotekar">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Recept">
+              <PropertyRef Name="Obradio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lekar_Klinika">
+          <End Role="Klinika" Type="Self.Klinika" Multiplicity="1" />
+          <End Role="Lekar" Type="Self.Lekar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klinika">
+              <PropertyRef Name="idKlinika" />
+            </Principal>
+            <Dependent Role="Lekar">
+              <PropertyRef Name="idKlinika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lek_Tip">
+          <End Role="Tip" Type="Self.Tip" Multiplicity="1" />
+          <End Role="Lek" Type="Self.Lek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tip">
+              <PropertyRef Name="idTip" />
+            </Principal>
+            <Dependent Role="Lek">
+              <PropertyRef Name="idTip" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recept_Lek">
+          <End Role="Lek" Type="Self.Lek" Multiplicity="1" />
+          <End Role="Recept" Type="Self.Recept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lek">
+              <PropertyRef Name="idLek" />
+            </Principal>
+            <Dependent Role="Recept">
+              <PropertyRef Name="idLek" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zamena_Lek1">
+          <End Role="Lek" Type="Self.Lek" Multiplicity="1" />
+          <End Role="Zamena" Type="Self.Zamena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lek">
+              <PropertyRef Name="idLek" />
+            </Principal>
+            <Dependent Role="Zamena">
+              <PropertyRef Name="idLek1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zamena_Lek2">
+          <End Role="Lek" Type="Self.Lek" Multiplicity="1" />
+          <End Role="Zamena" Type="Self.Zamena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lek">
+              <PropertyRef Name="idLek" />
+            </Principal>
+            <Dependent Role="Zamena">
+              <PropertyRef Name="idLek2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recept_Lekar">
+          <End Role="Lekar" Type="Self.Lekar" Multiplicity="1" />
+          <End Role="Recept" Type="Self.Recept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lekar">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Recept">
+              <PropertyRef Name="idLekar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termin_Lekar">
+          <End Role="Lekar" Type="Self.Lekar" Multiplicity="1" />
+          <End Role="Termin" Type="Self.Termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lekar">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Termin">
+              <PropertyRef Name="idLekar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recept_Pacijent">
+          <End Role="Pacijent" Type="Self.Pacijent" Multiplicity="1" />
+          <End Role="Recept" Type="Self.Recept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacijent">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Recept">
+              <PropertyRef Name="idPacijent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termin_Pacijent">
+          <End Role="Pacijent" Type="Self.Pacijent" Multiplicity="1" />
+          <End Role="Termin" Type="Self.Termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacijent">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="Termin">
+              <PropertyRef Name="idPacijent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DigitalnoZdravstvoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Administrators" EntityType="Self.Administrator" />
+          <EntitySet Name="Apotekars" EntityType="Self.Apotekar" />
+          <EntitySet Name="Klinikas" EntityType="Self.Klinika" />
+          <EntitySet Name="Leks" EntityType="Self.Lek" />
+          <EntitySet Name="Lekars" EntityType="Self.Lekar" />
+          <EntitySet Name="Pacijents" EntityType="Self.Pacijent" />
+          <EntitySet Name="Recepts" EntityType="Self.Recept" />
+          <EntitySet Name="Termins" EntityType="Self.Termin" />
+          <EntitySet Name="Tips" EntityType="Self.Tip" />
+          <EntitySet Name="Zamenas" EntityType="Self.Zamena" />
+          <AssociationSet Name="FK_Recept_Apotekar" Association="Self.FK_Recept_Apotekar">
+            <End Role="Apotekar" EntitySet="Apotekars" />
+            <End Role="Recept" EntitySet="Recepts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lekar_Klinika" Association="Self.FK_Lekar_Klinika">
+            <End Role="Klinika" EntitySet="Klinikas" />
+            <End Role="Lekar" EntitySet="Lekars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lek_Tip" Association="Self.FK_Lek_Tip">
+            <End Role="Tip" EntitySet="Tips" />
+            <End Role="Lek" EntitySet="Leks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recept_Lek" Association="Self.FK_Recept_Lek">
+            <End Role="Lek" EntitySet="Leks" />
+            <End Role="Recept" EntitySet="Recepts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zamena_Lek1" Association="Self.FK_Zamena_Lek1">
+            <End Role="Lek" EntitySet="Leks" />
+            <End Role="Zamena" EntitySet="Zamenas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zamena_Lek2" Association="Self.FK_Zamena_Lek2">
+            <End Role="Lek" EntitySet="Leks" />
+            <End Role="Zamena" EntitySet="Zamenas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recept_Lekar" Association="Self.FK_Recept_Lekar">
+            <End Role="Lekar" EntitySet="Lekars" />
+            <End Role="Recept" EntitySet="Recepts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termin_Lekar" Association="Self.FK_Termin_Lekar">
+            <End Role="Lekar" EntitySet="Lekars" />
+            <End Role="Termin" EntitySet="Termins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recept_Pacijent" Association="Self.FK_Recept_Pacijent">
+            <End Role="Pacijent" EntitySet="Pacijents" />
+            <End Role="Recept" EntitySet="Recepts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termin_Pacijent" Association="Self.FK_Termin_Pacijent">
+            <End Role="Pacijent" EntitySet="Pacijents" />
+            <End Role="Termin" EntitySet="Termins" />
+          </AssociationSet>
+          <EntitySet Name="Apotekas" EntityType="DigitalnoZdravstvoModel.Apoteka" />
+          <AssociationSet Name="FK_Apotekar_Apoteka" Association="DigitalnoZdravstvoModel.FK_Apotekar_Apoteka">
+            <End Role="Apoteka" EntitySet="Apotekas" />
+            <End Role="Apotekar" EntitySet="Apotekars" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Apoteka">
+          <Key>
+            <PropertyRef Name="idApoteka" />
+          </Key>
+          <Property Name="idApoteka" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lat" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="lon" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="naziv" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Apotekars" Relationship="DigitalnoZdravstvoModel.FK_Apotekar_Apoteka" FromRole="Apoteka" ToRole="Apotekar" />
+        </EntityType>
+        <Association Name="FK_Apotekar_Apoteka">
+          <End Type="DigitalnoZdravstvoModel.Apoteka" Role="Apoteka" Multiplicity="1" />
+          <End Type="DigitalnoZdravstvoModel.Apotekar" Role="Apotekar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apoteka">
+              <PropertyRef Name="idApoteka" />
+            </Principal>
+            <Dependent Role="Apotekar">
+              <PropertyRef Name="idApoteka" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DigitalnoZdravstvoModelStoreContainer" CdmEntityContainer="DigitalnoZdravstvoEntities">
+          <EntitySetMapping Name="Administrators">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Administrator">
+              <MappingFragment StoreEntitySet="Administrator">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="Pol" ColumnName="Pol" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Legalan" ColumnName="Legalan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Apotekars">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Apotekar">
+              <MappingFragment StoreEntitySet="Apotekar">
+                <ScalarProperty Name="idApoteka" ColumnName="idApoteka" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="DatumRodjenja" ColumnName="DatumRodjenja" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Pol" ColumnName="Pol" />
+                <ScalarProperty Name="Legalan" ColumnName="Legalan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Klinikas">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Klinika">
+              <MappingFragment StoreEntitySet="Klinika">
+                <ScalarProperty Name="idKlinika" ColumnName="idKlinika" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Leks">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Lek">
+              <MappingFragment StoreEntitySet="Lek">
+                <ScalarProperty Name="idLek" ColumnName="idLek" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="NaRecept" ColumnName="NaRecept" />
+                <ScalarProperty Name="Proizvodjac" ColumnName="Proizvodjac" />
+                <ScalarProperty Name="Cena" ColumnName="Cena" />
+                <ScalarProperty Name="idTip" ColumnName="idTip" />
+                <ScalarProperty Name="SnizenjeRecept" ColumnName="SnizenjeRecept" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lekars">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Lekar">
+              <MappingFragment StoreEntitySet="Lekar">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="DatumRodjenja" ColumnName="DatumRodjenja" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="Pol" ColumnName="Pol" />
+                <ScalarProperty Name="Sprat" ColumnName="Sprat" />
+                <ScalarProperty Name="Prostorija" ColumnName="Prostorija" />
+                <ScalarProperty Name="idKlinika" ColumnName="idKlinika" />
+                <ScalarProperty Name="Legalan" ColumnName="Legalan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pacijents">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Pacijent">
+              <MappingFragment StoreEntitySet="Pacijent">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="DatumRodjenja" ColumnName="DatumRodjenja" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Pol" ColumnName="Pol" />
+                <ScalarProperty Name="JMBG" ColumnName="JMBG" />
+                <ScalarProperty Name="BLK" ColumnName="BLK" />
+                <ScalarProperty Name="BZK" ColumnName="BZK" />
+                <ScalarProperty Name="LBO" ColumnName="LBO" />
+                <ScalarProperty Name="Osiguran" ColumnName="Osiguran" />
+                <ScalarProperty Name="Hronicar" ColumnName="Hronicar" />
+                <ScalarProperty Name="Legalan" ColumnName="Legalan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recepts">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Recept">
+              <MappingFragment StoreEntitySet="Recept">
+                <ScalarProperty Name="idRecept" ColumnName="idRecept" />
+                <ScalarProperty Name="DatumIzdavanja" ColumnName="DatumIzdavanja" />
+                <ScalarProperty Name="DoziranjePrepodne" ColumnName="DoziranjePrepodne" />
+                <ScalarProperty Name="DoziranjePopodne" ColumnName="DoziranjePopodne" />
+                <ScalarProperty Name="DoziranjeUvece" ColumnName="DoziranjeUvece" />
+                <ScalarProperty Name="DoziranjeSirup" ColumnName="DoziranjeSirup" />
+                <ScalarProperty Name="idLek" ColumnName="idLek" />
+                <ScalarProperty Name="idPacijent" ColumnName="idPacijent" />
+                <ScalarProperty Name="idLekar" ColumnName="idLekar" />
+                <ScalarProperty Name="Obradio" ColumnName="Obradio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Termins">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Termin">
+              <MappingFragment StoreEntitySet="Termin">
+                <ScalarProperty Name="idTermin" ColumnName="idTermin" />
+                <ScalarProperty Name="TerminPocetak" ColumnName="TerminPocetak" />
+                <ScalarProperty Name="TerminKraj" ColumnName="TerminKraj" />
+                <ScalarProperty Name="idPacijent" ColumnName="idPacijent" />
+                <ScalarProperty Name="idLekar" ColumnName="idLekar" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tips">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Tip">
+              <MappingFragment StoreEntitySet="Tip">
+                <ScalarProperty Name="idTip" ColumnName="idTip" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zamenas">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Zamena">
+              <MappingFragment StoreEntitySet="Zamena">
+                <ScalarProperty Name="idZamena" ColumnName="idZamena" />
+                <ScalarProperty Name="idLek1" ColumnName="idLek1" />
+                <ScalarProperty Name="idLek2" ColumnName="idLek2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Apotekas">
+            <EntityTypeMapping TypeName="DigitalnoZdravstvoModel.Apoteka">
+              <MappingFragment StoreEntitySet="Apoteka">
+                <ScalarProperty Name="naziv" ColumnName="naziv" />
+                <ScalarProperty Name="lon" ColumnName="lon" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="idApoteka" ColumnName="idApoteka" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
