@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = "Shared/_LayoutPage.cshtml";
+    ViewBag.Title = "Pacijent panel";
+    Pacijent p = (Pacijent)Session["user"];
+}
+
+
+
+
+@*
+    @foreach (Termin t in ViewBag.Termini)
+    {
+        <div class="alert alert-info pl-5 m-3 text-center">
+            @t.TerminPocetak.ToString("dd.MM.yyyy") u terminu @t.TerminPocetak.ToString("HH:mm") - @t.TerminKraj.ToString("HH:mm")
+        </div>
+    }
+
+    <hr />
+
+    @foreach (Recept r in ViewBag.NepodignutiRecepti)
+    {
+        <div class="alert border-success pl-5 m-3 text-center">
+            @r.DatumIzdavanja - @r.Lek.Naziv
+        </div>
+    }
+
+    @foreach (Recept r in ViewBag.PodignutiRecepti)
+    {
+        <div class="alert border-danger pl-5 m-3 text-center">
+            @r.DatumIzdavanja - @r.Lek.Naziv
+            @if (r.DoziranjeSirup == null)
+            {
+                <p>Uzimanje prepodne:  @r.DoziranjePrepodne</p>
+                <p>Uzimanje popodne:  @r.DoziranjePopodne</p>
+                <p>Uzimanje uvece:  @r.DoziranjeUvece</p>
+            }
+            else
+            {
+                <p>Uzimanje:  @r.DoziranjeSirup</p>
+            }
+        </div>
+    }*@
+<div class="panel panel-default">
+    <div class="panel-heading" style="background-color:#007bff">
+        <h1 class="panel-title">Licni Podaci</h1>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover">
+            <tr>
+                <td><strong>Ime:</strong></td>
+                <td>@p.Ime</td>
+            </tr>
+            <tr>
+                <td><strong>Prezime:</strong></td>
+                <td>@p.Prezime</td>
+            </tr>
+            <tr>
+                <td><strong>Username:</strong></td>
+                <td>@p.Username</td>
+            </tr>
+            <tr>
+                <td><strong>Datum Rodjenja:</strong></td>
+                <td>@p.DatumRodjenja.ToString("dd-MM-yyyy")</td>
+            </tr>
+            <tr>
+                <td><strong>Pol:</strong></td>
+                <td>@{string pol = p.Pol.Equals("m") ? "muski" : "zenski";}<span>@pol</span></td>
+            </tr>
+            <tr>
+                <td><strong>Telefon:</strong></td>
+                <td>@p.Telefon</td>
+            </tr>
+            <tr>
+                <td><strong>Mail:</strong></td>
+                <td>@p.Mail</td>
+            </tr>
+        </table>
+    </div>
+</div>

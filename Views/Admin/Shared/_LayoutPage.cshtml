@@ -1,0 +1,95 @@
+﻿@functions{
+    private string welcome()
+    {
+        Administrator a = (Administrator)Session["user"];
+        string welcomeMessage = "";
+        if (a == null)
+        {
+            welcomeMessage = "";
+        }
+        else
+        {
+            int sat = DateTime.Now.Hour;
+            if (sat >= 6 && sat <= 12) { welcomeMessage = "Dobro jutro, "; }
+            else if (sat > 12 && sat <= 20) { welcomeMessage = "Dobar dan, "; }
+            else { welcomeMessage = "Dobro vece, "; }
+            welcomeMessage += a.Prezime + " " + a.Ime;
+        }
+        return welcomeMessage;
+    }
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/ContentAdmin/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+
+
+    <div class="container-fluid" style="background-color: #999900">
+        <ul class="nav  justify-content-end">
+            <li class="nav-item">
+                <a href="#" class="nav-item nav-link " style="border:1px solid;border-color:#001433;background-color:#4d4d00"><span color:white>@if ((Administrator)Session["user"] == null)
+                {<text>Sesija istekla </text>}
+            else
+            {@welcome()}</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="@Url.Action("LogOut","Admin")" class="nav-item nav-link " style="border:1px solid;border-color:darkred;background-color:tomato">Logout</a>
+            </li>
+        </ul>
+    </div>
+    <div id="headerLogin">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="@Url.Content("~/Content/Admin/Images/logo.png")" alt="body" style="height:200px;width:100%">
+                </div>
+                <div class="col-md-8">
+                    <h1> Digitalna Klinika </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="section" style="margin-top:30px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="list-group" style="border:1px solid;border-radius:4px">
+                        <a href="#" class="list-group-item list-group-item-action " style="background-color:#999900">
+                            Dashboard
+                        </a>
+                        <a href="@Url.Action("Index","Admin")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">1</span> Pocetna</a>
+                        <a href="@Url.Action("RegPatient","Admin")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">2</span> Registracija pacijenta</a>
+                        <a href="@Url.Action("RegDoctor","Admin")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">3</span> Registracija doktora</a>
+                        <a href="@Url.Action("RegPharmacist","Admin")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">4</span> Registracija farmaceuta</a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footerLogin" style="margin-top:30px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    Copyright Borislav Nikolic, @@ @DateTime.Today.Year
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

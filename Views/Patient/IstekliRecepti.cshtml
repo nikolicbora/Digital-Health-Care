@@ -1,0 +1,89 @@
+﻿@model List<DigitalnaApoteka.Models.Recept>
+
+@{
+    Layout = "Shared/_LayoutPage.cshtml";
+    ViewBag.Title = "Podignuti Recepti";
+}
+
+<h2>Istekli Recepti</h2>
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Datum Izdavanja
+            </th>
+            <th>
+                Naziv Leka
+            </th>
+            <th>
+                Tip Leka
+            </th>
+            <th>
+                Doziranje
+            </th>
+            <th>
+                Recpet
+            </th>
+            <th>
+                Cena
+            </th>
+            <th>
+                Popust Recept
+            </th>
+            <th>
+                Ukupna Cena
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.DatumIzdavanja.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @item.Lek.Naziv
+                </td>
+                <td>
+                    @item.Lek.Tip.Naziv
+                </td>
+                <td>
+                    @if (item.Lek.Tip.Naziv.Equals("sirup"))
+                    {
+                        <ul>
+                            <ii>@item.DoziranjeSirup</ii>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul>
+                            <li>Prepodne: @item.DoziranjePrepodne</li>
+                            <li>Popodne: @item.DoziranjePopodne</li>
+                            <li>Uvece: @item.DoziranjeUvece</li>
+                        </ul>
+                    }
+                </td>
+                <td>
+                    @item.Lek.SnizenjeRecept == 100?"DA":"NE"
+                </td>
+                <td>
+                    @item.Lek.Cena
+                </td>
+                <td>
+                    @item.Lek.SnizenjeRecept
+                </td>
+                <td>
+                    @Math.Round(item.Lek.Cena * (100 - item.Lek.SnizenjeRecept) / 100, 2)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <p>Nema Isteklih recepata</p>
+}
+

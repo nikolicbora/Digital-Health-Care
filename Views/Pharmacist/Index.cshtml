@@ -1,0 +1,326 @@
+﻿@{
+    Layout = "Shared/_LayoutPage.cshtml";
+    ViewBag.Title = "Apotekar panel";
+    Apotekar a = (Apotekar)ViewData["apotekar"];
+}
+
+@*<h2>Apotekar: @ViewBag.ImePrezime</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-@ViewBag.MessageType alert-dismissible fade show" role="alert">
+        @ViewBag.Message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<hr />
+
+<h2>Pretraga pacijenata</h2>
+
+@using (Html.BeginForm("FindPatient", "Pharmacist", FormMethod.Post))
+{
+    <div class="form-row">
+        <div class="col-md-3">
+            <label for="broj">Broj:</label>
+            <input type="text" class="form-control" name="broj" id="broj" required />
+        </div>
+        <div class="col-md-3">
+            <label for="izbor">Tip podataka pacijenta:</label>
+            <select id="izbor" name="izbor" class="form-control">
+                <option>JMBG</option>
+                <option>BLK</option>
+                <option>BZK</option>
+                <option>LBO</option>
+            </select>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6 mt-2">
+            <input class="btn btn-outline-success" style="width: 100% !important;" type="submit" value="Pronadji" />
+        </div>
+        <div class="col-md-6">
+        </div>
+    </div>
+}
+
+<hr />
+
+@if (ViewBag.Pacijent != null)
+{
+    <!-- Podaci o pacijentu -->
+    <div class="row">
+        <div class="col-md-5">
+            <h4>Ime: @ViewBag.Pacijent.Ime</h4>
+
+            <h4>Prezime: @ViewBag.Pacijent.Prezime</h4>
+
+            <h4>Datum rodjenja: @ViewBag.Pacijent.DatumRodjenja.ToString("dd.MM.yyyy")</h4>
+
+            <h4>Pol: @(ViewBag.Pacijent.Pol.Equals("m") ? "Muški" : "Ženski")</h4>
+
+            <h4>Osiguran: @(ViewBag.Pacijent.Osiguran == 1 ? "Jeste" : "Nije")</h4>
+
+            <h4>Hroničan bolesnik: @(ViewBag.Pacijent.Hronicar == 1 ? "Jeste" : "Nije")</h4>
+        </div>
+        <div class="col-md-7">
+        </div>
+    </div>
+
+    <script>
+        function obradaRecepta(idRecepta) {
+            var zamena = $('select[name="zamena' + idRecepta + '"]').val();
+
+            $.post(
+                '/ProcessReceipt',
+                { 'id': idRecepta, 'zamena': zamena },
+                function (response) {
+                    window.location.reload();
+                }
+            );
+        }
+    </script>
+
+    if (ViewBag.Pacijent.Osiguran == 1)
+    {
+        <style>
+            ::-webkit-scrollbar {
+                width: 4px;
+                background: transparent;
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                border-radius: 25px;
+                background: #007bff;
+            }
+        </style>
+
+        <div class="row">
+            <div class="col-md-12 mt-4" style="max-height: 600px; overflow-y: scroll;">
+                <h4>Nepodignuti recepti:</h4>
+                <table class="table table-sm table-bordered">
+                    <thead class="thead-dark bg-dark text-white">
+                        <tr>
+                            <th class="text-center">Naziv leka</th>
+                            <th class="text-center">Tip leka</th>
+                            <th class="text-center">Datum prepisivanja</th>
+                            <th class="text-center">Doziranje</th>
+                            <th class="text-center">Popust</th>
+                            <th class="text-center">Cena</th>
+                            <th class="text-center">Zamena</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @foreach (Recept recept in ViewBag.Recepti)
+                    {
+                        if (recept.Obradio == null)
+                        {
+                            if (recept.DatumIzdavanja.AddDays(30) < DateTime.Now)
+                            {
+                                <tr class="alert-warning">
+                                    <td class="text-center align-middle">@recept.Lek.Naziv</td>
+                                    <td class="text-center align-middle">@recept.Lek.Tip.Naziv</td>
+                                    <td class="text-center align-middle">@recept.DatumIzdavanja</td>
+
+                                    @if (recept.Lek.Tip.Naziv.Equals("Sirup"))
+                                    {
+                                        <td class="text-center align-middle">
+                                            @recept.DoziranjeSirup
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td style="font-size: 0.8em" class="text-center align-middle">
+                                            Prepodne: @recept.DoziranjePrepodne
+                                            <br />
+                                            Popodne: @recept.DoziranjePopodne
+                                            <br />
+                                            Uvece: @recept.DoziranjeUvece
+                                        </td>
+                                    }
+
+                                    <td class="text-center align-middle">@recept.Lek.SnizenjeRecept%</td>
+                                    <td class="text-center align-middle">@(recept.Lek.Cena * (1 - (recept.Lek.SnizenjeRecept / 100f))) rsd</td>
+                                    <td colspan="2" class="font-italic text-center align-middle">
+                                        Recept je istekao
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr class="alert-success">
+                                    <td class="text-center align-middle">@recept.Lek.Naziv</td>
+                                    <td class="text-center align-middle">@recept.Lek.Tip.Naziv</td>
+                                    <td class="text-center align-middle">@recept.DatumIzdavanja</td>
+
+                                    @if (recept.Lek.Tip.Naziv.Equals("Sirup"))
+                                    {
+                                        <td class="text-center align-middle">
+                                            @recept.DoziranjeSirup
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td style="font-size: 0.8em" class="text-center align-middle">
+                                            Prepodne: @recept.DoziranjePrepodne
+                                            <br />
+                                            Popodne: @recept.DoziranjePopodne
+                                            <br />
+                                            Uvece: @recept.DoziranjeUvece
+                                        </td>
+                                    }
+
+                                    <td class="text-center align-middle">@recept.Lek.SnizenjeRecept%</td>
+                                    <td class="text-center align-middle">@(recept.Lek.Cena * (1 - (recept.Lek.SnizenjeRecept / 100f))) rsd</td>
+                                    <td class="text-center align-middle">
+                                        <select class="form-control w-100" name="zamena@(recept.idRecept)">
+                                            <option value="-1">@recept.Lek.Naziv</option>
+                                            @foreach (Zamena z in recept.Lek.Zamenas)
+                                            {
+                                                <option value="@z.idLek2">@z.Lek1.Naziv</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td class="text-center align-middle"><button onclick="obradaRecepta('@recept.idRecept')" class="btn btn-primary w-100">Obradi</button></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr class="alert-primary">
+                                <td class="text-center align-middle">@recept.Lek.Naziv</td>
+                                <td class="text-center align-middle">@recept.Lek.Tip.Naziv</td>
+                                <td class="text-center align-middle">@recept.DatumIzdavanja</td>
+
+                                @if (recept.Lek.Tip.Naziv.Equals("Sirup"))
+                                {
+                                    <td class="text-center align-middle">
+                                        @recept.DoziranjeSirup
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="font-size: 0.8em" class="text-center align-middle">
+                                        @recept.DoziranjePrepodne
+                                        <br />
+                                        @recept.DoziranjePopodne
+                                        <br />
+                                        @recept.DoziranjeUvece
+                                    </td>
+                                }
+
+                                <td class="text-center align-middle">@recept.Lek.SnizenjeRecept%</td>
+                                <td class="text-center align-middle">@(recept.Lek.Cena * (1 - (recept.Lek.SnizenjeRecept / 100f))) rsd</td>
+                                <td colspan="2" class="font-italic text-center align-middle">
+                                    Obradio: @recept.Obradio
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    }
+}*@
+<script>
+    function checkPatient()
+    {
+        $("#ErrorIzbor").text("");
+        $("#ErrorBroj").text("");
+        var izbor = $("select[name='izbor']").val();
+        var broj = $("input[name='broj']").val();
+        if (izbor == "none") {
+            event.preventDefault();
+            $("#ErrorIzbor").text("morate uneti izbor");
+        }
+        else if (broj == "") {
+            event.preventDefault();
+            $("#ErrorBroj").text("morate uneti broj");
+        }
+    }
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color:#04d716">
+                <h1 class="panel-title">Licni Podaci</h1>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover">
+                    <tr>
+                        <td><strong>Ime:</strong></td>
+                        <td>@a.Ime</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prezime:</strong></td>
+                        <td>@a.Prezime</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Username:</strong></td>
+                        <td>@a.Username</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Datum Rodjenja:</strong></td>
+                        <td>@a.DatumRodjenja.ToString("dd-MM-yyyy")</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pol:</strong></td>
+                        <td>@{string pol = a.Pol.Equals("m") ? "muski" : "zenski";}<span>@pol</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Telefon:</strong></td>
+                        <td>@a.Telefon</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mail:</strong></td>
+                        <td>@a.Mail</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color:#04d716">
+                <h1 class="panel-title">Radni okvir</h1>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("PacientReceipts", "Pharmacist", FormMethod.Post, new { @class = "well" }))
+                {
+                    <div class="form-group">
+                        <label for="izbor"><strong>Izbor</strong></label>
+                        <select name="izbor" class="form-control" style="background-color:#e6ffe6">
+                            <option>none</option>
+                            <option>JMBG</option>
+                            <option>BZK</option>
+                            <option>BLK</option>
+                            <option>LBO</option>
+                        </select>
+                        <span class="text-danger" id="ErrorIzbor" style="font-weight:600"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="broj"><strong>Broj</strong></label>
+                        <input type="text" name="broj" class="form-control" style="background-color:#e6ffe6" />
+                        <span class="text-danger" id="ErrorBroj" style="font-weight:600"></span>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success" onclick="checkPatient()">Pretrazi</button>
+                    </div>
+
+                    if (ViewData["error"] != null)
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert" style="margin-top:10px">
+                            <p>@ViewData["error"]</p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

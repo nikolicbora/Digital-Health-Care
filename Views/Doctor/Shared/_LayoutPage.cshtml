@@ -1,0 +1,89 @@
+﻿@functions{
+    private string welcome()
+    {
+        Lekar l = (Lekar)Session["user"];
+        string welcomeMessage = "";
+        if (l == null)
+        {
+            welcomeMessage = "";
+        }
+        else
+        {
+            int sat = DateTime.Now.Hour;
+            if (sat >= 6 && sat <= 12) { welcomeMessage = "Dobro jutro, "; }
+            else if (sat > 12 && sat <= 20) { welcomeMessage = "Dobar dan, "; }
+            else { welcomeMessage = "Dobro vece, "; }
+            welcomeMessage += l.Prezime + " " + l.Ime;
+        }
+        return welcomeMessage;
+    }
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/ContentDoctor/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row" style="background-color: #e74c3c">
+            <div class="col-md-12">
+                <ul class="nav  justify-content-end">
+                    <li class="nav-item">
+                        <a href="#" class="nav-item nav-link " style="border:1px solid;border-color:darkred;background-color:sandybrown"><span color:white>@welcome()</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("LogOut","Doctor")" class="nav-item nav-link " style="border:1px solid;border-color:darkred;background-color:tomato">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row" id="headerLogin">
+            <div class="col-md-4">
+                <img src="@Url.Content("~/Content/Doctor/Images/health-logo.jpg")" alt="body" style="height:150px;width:100%">
+            </div>
+            <div class="col-md-8">
+                <h1> Digitalna Klinika </h1>
+            </div>
+        </div>
+
+
+        <div class="row" id="section" style="margin-top:30px">
+            <div class="col-md-3">
+                <div class="list-group" style="border:1px solid;border-radius:4px">
+                    <a href="#" class="list-group-item list-group-item-action active" style="background-color:#e74c3c;border-color:#e74c3c">
+                        Dashboard
+                    </a>
+                    <a href="@Url.Action("Index","Doctor")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">1</span> Pocetna</a>
+                    <a href="@Url.Action("Today","Doctor")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">2</span> Današnji termini</a>
+                    <a href="@Url.Action("ThisWeek","Doctor")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">3</span> Pregled nedelje</a>
+                    <a href="@Url.Action("NewAppointment","Doctor")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">4</span> Zakaži termin</a>
+                    <a href="@Url.Action("NewReceipt","Doctor")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">5</span> Napiši recept</a>
+                    <a href="@Url.Action("ThisMonth","Doctor")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">6</span> Mesecni raspored</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
+
+
+        <div class="row" id="footerLogin" style="margin-top:30px">
+            <div class="col-md-12">
+                Copyright Borislav Nikolic, @@ @DateTime.Today.Year
+            </div>
+        </div>
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

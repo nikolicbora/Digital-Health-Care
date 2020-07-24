@@ -1,0 +1,66 @@
+﻿
+@model  DigitalnaApoteka.ViewModel.DoctorViewModel.NewApoitmentViewModel
+@{
+    Layout = "Shared/_LayoutPage.cshtml";
+    ViewBag.Title = "Zakazivanje termina";
+}
+
+
+
+@using (Html.BeginForm("AddAppointment", "Doctor", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Izbor)
+        @Html.DropDownListFor(m => m.Izbor, new List<SelectListItem> { new SelectListItem { Text = "JMBG", Value = "JMBG" }, new SelectListItem { Text = "BLK", Value = "BLK" }, new SelectListItem { Text = "BZK", Value = "BZK" }, new SelectListItem { Text = "LBO", Value = "LBO" } }, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Izbor, "", new { @class = "form-text text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Broj)
+        @Html.TextBoxFor(m => m.Broj, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Broj, "", new { @class = "form-text text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DatumPocetka)
+        @Html.TextBoxFor(m => m.DatumPocetka, "{0:yyyy-MM-ddThh:mm:ss}", new { @class = "form-control", type = "datetime-local" })
+        @Html.ValidationMessageFor(m => m.DatumPocetka, "", new { @class = "form-text text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Trajanje)
+        @Html.DropDownListFor(m => m.Trajanje, new List<SelectListItem> { new SelectListItem { Text = "20", Value = "20" }, new SelectListItem { Text = "30", Value = "30" }, new SelectListItem { Text = "40", Value = "40" } }, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Trajanje, "", new { @class = "form-text text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Opis)
+        @Html.TextAreaFor(m => m.Opis, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Opis, "", new { @class = "form-text text-danger" })
+    </div>
+    <div class="form-group">
+        <input class="form-control btn btn-success" type="submit" value="Zakazi" />
+    </div>
+    <div class="form-group">
+        @Html.ValidationSummary(true)
+    </div>
+    <div class="form-group">
+        @if (ViewData["error"] != null)
+        {
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert" style="margin-top:10px">
+            <p>@ViewData["error"]</p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        }
+    </div>
+    <div class="form-group">
+        @if (ViewData["success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show text-center" role="alert" style="margin-top:10px">
+                <p>@ViewData["success"]</p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>dApoteka</h1>
+    <p class="lead"><i>Vasa digitalna apoteka!</i></p>
+</div>
+
+<h2 class="text-center">Pristupite servisu kao:</h2>
+<br />
+<div class="row text-center">
+    <div class="col-md-3">
+        <h2>Pacijent</h2>
+
+        @using (Html.BeginForm("Login", "Patient", FormMethod.Get))
+        {
+            <button type="submit" class="btn btn-info">Pristupi >></button>
+        }
+    </div>
+    <div class="col-md-3">
+        <h2>Farmaceut</h2>
+
+        @using (Html.BeginForm("Login", "Pharmacist", FormMethod.Get))
+        {
+            <button type="submit" class="btn btn-info">Pristupi >></button>
+        }
+    </div>
+    <div class="col-md-3">
+        <h2>Doktor</h2>
+
+        @using (Html.BeginForm("Login", "Doctor", FormMethod.Get))
+        {
+            <button type="submit" class="btn btn-info">Pristupi >></button>
+        }
+    </div>
+    <div class="col-md-3">
+        <h2>Administrator</h2>
+
+        @using (Html.BeginForm("Login", "Admin", FormMethod.Get))
+        {
+            <button type="submit" class="btn btn-info">Pristupi >></button>
+        }
+    </div>
+</div>
+<br />

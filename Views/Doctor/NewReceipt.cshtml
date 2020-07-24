@@ -1,0 +1,458 @@
+﻿
+@{
+    Layout = "Shared/_LayoutPage.cshtml";
+    ViewBag.Title = "Unos recepta";
+}
+@model DigitalnaApoteka.ViewModel.DoctorViewModel.NewReceiptViewModel
+@*<nav class="navbar navbar-expand-lg navbar-dark bg-info mb-4">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav mr-auto">
+                @Html.ActionLink("Lekarski panel", "Index", "Doctor", null, new { @class = "nav-item navbar-brand nav-link active" })
+            </div>
+
+            <div class="navbar-text form-inline" style="display: flex !important; padding: 0 !important">
+                @Html.ActionLink("Današnji termini", "Today", "Doctor", null, new { @class = "nav-item nav-link active" })
+                @Html.ActionLink("Pregled nedelje", "ThisWeek", "Doctor", null, new { @class = "nav-item nav-link active" })
+                @Html.ActionLink("Zakaži termin", "NewAppointment", "Doctor", null, new { @class = "nav-item nav-link active" })
+                @Html.ActionLink("Napiši recept", "NewReceipt", "Doctor", null, new { @class = "nav-item nav-link active" })
+            </div>
+        </div>
+    </nav>
+
+    <h2>Pisanje recepta</h2>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-@ViewBag.MessageType alert-dismissible fade show" role="alert">
+            @ViewBag.Message
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <script>
+        function predlozi() {
+            if ($('#naziv').val().length > 2) {
+                $.post(
+                    "/MedicineRecommendation",
+                    { 'naziv': $('#naziv').val() },
+                    function (response) {
+                        $('#predloziNaziva').html("");
+                        var novi = "";
+                        var i = 0;
+                        for (var lek of response) {
+                            novi += "<a class='btn btn-outline-primary text-primary mr-1 mt-3' onclick=\"popuniPredlog('" + lek.naziv.trim() + "', " + lek.tip + ")\">" + lek.naziv.trim() + "</a>";
+                            i++;
+                            if (i == 5) {
+                                break;
+                            }
+                        }
+                        $('#predloziNaziva').html("<p></p>" + novi);
+                    }
+                );
+            } else {
+                 $('#predloziNaziva').html("");
+            }
+        }
+
+        function popuniPredlog(predlog, tip) {
+            $('#naziv').val(predlog);
+            $('#submit').removeAttr('disabled');
+
+            if (tip == 2) {
+                $('#sirup').removeAttr('hidden');
+                $('#ostalo').attr('hidden', 'true');
+            } else {
+                $('#ostalo').removeAttr('hidden');
+                $('#sirup').attr('hidden', 'true');
+            }
+        }
+    </script>
+
+    @using (Html.BeginForm("AddReceipt", "Doctor", FormMethod.Post))
+    {
+        <div class="form-row">
+            <div class="col-md-3">
+                <label for="broj">Broj:</label>
+                <input type="text" class="form-control" name="broj" id="broj" required />
+            </div>
+            <div class="col-md-3">
+                <label for="izbor">Tip podataka pacijenta:</label>
+                <select id="izbor" name="izbor" class="form-control">
+                    <option>JMBG</option>
+                    <option>BLK</option>
+                    <option>BZK</option>
+                    <option>LBO</option>
+                </select>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <div class="form-row mt-1 mb-2">
+            <div class="col-md-3">
+                <label for="naziv">Naziv leka:</label>
+                <input type="text" class="form-control" name="naziv" id="naziv" oninput="predlozi()" required />
+            </div>
+            <div class="col-md-3" id="predloziNaziva">
+
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <div id="sirup" hidden>
+            <h4>Sirup - doziranje</h4>
+            <div class="form-group">
+                <label for="kolikoDnevno">Koliko doza dnevno:</label>
+                <input min="0" max="8" type="number" class="form-control" name="kolikoDnevno" id="kolikoDnevno" />
+            </div>
+            <div class="form-group">
+                <label for="kolikoKolicina">Koju količinu pri svakom uzimanju:</label>
+                <input min="0" max="200" type="number" class="form-control" name="kolikoKolicina" id="kolikoKolicina" />
+            </div>
+        </div>
+        <div id="ostalo" hidden>
+            <h4>Tableta - doziranje</h4>
+            <div class="form-group">
+                <label for="kolikoPrepodne">Koliko leka uzimati prepodne:</label>
+                <input min="0" max="5" type="number" class="form-control" name="kolikoPrepodne" id="kolikoPrepodne" />
+            </div>
+            <div class="form-group">
+                <label for="kolikoPopodne">Koliko leka uzimati popodne:</label>
+                <input min="0" max="5" type="number" class="form-control" name="kolikoPopodne" id="kolikoPopodne" />
+            </div>
+            <div class="form-group">
+                <label for="kolikoUvece">Koliko leka uzimati uveče:</label>
+                <input min="0" max="5" type="number" class="form-control" name="kolikoUvece" id="kolikoUvece" />
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="form-control btn btn-outline-success" id="submit" type="submit" value="Potvrdi recept" disabled/>
+        </div>
+    }
+*@
+
+
+<script>
+
+    function obradi(nazivLek, tipLek, idLek) {
+        //alert(nazivLek + "-" + tipLek);
+
+        //dodato
+        $("#ErrorBroj").text("");
+        $("#ErrorIzbor").text("");
+        $("#ErrorDnevno").text("");
+        $("#ErrorKolicina").text("");
+        $("#ErrorPrePodne").text("");
+        $("#ErrorPopodne").text("");
+        $("#ErrorUvece").text("");
+
+        $("#Broj").val("");
+        $("#Izbor").val("none");
+        $("#Dnevno").val("none");
+        $("#Kolicina").val("none");
+        $("#PrePodne").val("none");
+        $("#Popodne").val("none");
+        $("#Uvece").val("none");
+
+        $("#sirupDnevno").hide();
+        $("#sirupKolicina").hide();
+        $("#tabletaPrePodne").hide();
+        $("#tabletaPoPodne").hide();
+        $("#tabletaUvece").hide();
+
+        //kraj
+
+        $("#idLek").val(idLek);
+        $("#tip").val(tipLek);
+        if (tipLek == "sirup") {
+
+            $("#sirupDnevno").show();
+            $("#sirupKolicina").show();
+        }
+        else {
+            $("#tabletaPrePodne").show();
+            $("#tabletaPoPodne").show();
+            $("#tabletaUvece").show();
+
+        }
+
+        $("#myModal").modal({
+            backdrop: 'static'
+        })
+        $("#myModal").modal('show');
+
+    }
+    function predlozi() {
+        if ($("#NazivLeka").val().length >= 1) {
+            $.ajax
+                ({
+                    type: "POST",
+                    url: "/Doctor/predloziNazivaLeka",
+                    data: '{naziv: "' + $("#NazivLeka").val() + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        document.getElementById("predlog").innerHTML = "";
+                        for (var i = 0; i < response.length; i++) {
+                            if (i == 5) { break; }
+                            else {
+                                document.getElementById("predlog").innerHTML +=
+                                    "<div class='panel-group' id='accordian'>" +
+                                    "<div class='panel panel-default' style='margin-bottom:0px'>" +
+                                    "<div class='panel-heading' style='background-color:#e74c3c'>" +
+                                    "<h4 class='panel-title'" +
+                                    "<a data-toggle='collapse' data-parent='accordian' href=" + "#collapse-" + response[i].idLek + " style='color:white'>" + response[i].naziv + "</a>" +
+                                    "</h4>" +
+                                    "</div>" +
+                                    "<div id=" + "collapse-" + response[i].idLek + " class='panel-collapse collapse in'>" +
+                                    "<div class='panel-body'>" +
+                                    "<table class='table table-striped table-hover'>" +
+                                    "<tr><td><strong>Naziv:</strong></td><td>" + response[i].naziv + "</td></tr>" +
+                                    "<tr><td><strong>Tip:</strong></td><td>" + response[i].nazivTip + "</td></tr>" +
+                                    "<tr><td><strong>Recept:</strong></td><td>" + response[i].recept + "</td></tr>" +
+                                    "<tr><td><strong>Popust:</strong></td><td>" + response[i].popust + "</td></tr>" +
+                                    "<tr><td><strong>Cena:</strong></td><td>" + response[i].cena + "</td></tr>" +
+                                    "<tr><td><strong>Proizvodjac:</strong></td><td>" + response[i].proizvodjac + "</td></tr>" +
+                                    "<tr><td><strong>Obrada:</strong></td><td><input type='button' class='btn btn-success' onclick='obradi(\"" + response[i].naziv + "\",\"" + response[i].nazivTip + "\",\"" + response[i].idLek + "\")' value='Napisi Recept'/></td></tr>" +
+                                    "</table>" +
+                                    "</div>" +
+                                    "</div>" +
+                                    "</div>" +
+                                    "</div>";
+                            }
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+        }
+        else {
+            document.getElementById("predlog").innerHTML = "";
+        }
+    }
+
+</script>
+
+
+<div class="form-group">
+    <label for="Nziv Leka">Naziv Lek:</label>
+</div>
+<div class="form-group">
+    <input type="text" id="NazivLeka" onchange="predlozi()" class="form-control" />
+</div>
+<div class="form-group" id="predlog"></div>
+@if (ViewData["error"] != null)
+{
+    
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert" style="margin-top:10px">
+        <p>@ViewData["error"]</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+else if (ViewData["success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert" style="margin-top:10px">
+        <p>@ViewData["success"]</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" id="close2">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="background-color:#e74c3c">
+                        <h1 class="panel-title">Licni Podaci</h1>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("AddReceipt", "Doctor", FormMethod.Post, new { id = "Forma" }))
+                        {
+
+                            <input type="text" hidden id="tip" />
+                            <div class="form-group">
+                                @Html.HiddenFor(m => m.IdLeka, new { id = "idLek" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Izbor)
+                                @Html.DropDownListFor(m => m.Izbor, new List<SelectListItem> { new SelectListItem { Text = "none", Value = "none" }, new SelectListItem { Text = "JMBG", Value = "JMBG" }, new SelectListItem { Text = "BLK", Value = "BLK" }, new SelectListItem { Text = "BZK", Value = "BZK" }, new SelectListItem { Text = "LBO", Value = "LBO" } }, new { @class = "form-control", id = "Izbor" })
+                                <span class="text-danger" id="ErrorIzbor"></span>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Broj)
+                                @Html.TextBoxFor(m => m.Broj, new { @class = "form-control", id = "Broj" })
+                                <span class="text-danger" id="ErrorBroj"></span>
+
+                            </div>
+                            <div class="form-group" id="sirupDnevno" style="display:none">
+                                @Html.LabelFor(m => m.Dnevno)
+                                @Html.DropDownListFor(m => m.Dnevno, new List<SelectListItem> { new SelectListItem { Text = "none", Value = "none" }, new SelectListItem { Text = "1", Value = "1" }, new SelectListItem { Text = "2", Value = "2" }, new SelectListItem { Text = "3", Value = "3" }, new SelectListItem { Text = "4", Value = "4" }, new SelectListItem { Text = "5", Value = "5" } }, new { @class = "form-control", id = "Dnevno" })
+                                <span class="text-danger" id="ErrorDnevno"></span>
+                            </div>
+                            <div class="form-group" id="sirupKolicina" style="display:none">
+                                @Html.LabelFor(m => m.Kolicina)
+                                @Html.DropDownListFor(m => m.Kolicina, new List<SelectListItem> { new SelectListItem { Text = "none", Value = "none" }, new SelectListItem { Text = "25", Value = "25" }, new SelectListItem { Text = "50", Value = "50" }, new SelectListItem { Text = "75", Value = "75" }, new SelectListItem { Text = "100", Value = "100" }, new SelectListItem { Text = "125", Value = "125" }, new SelectListItem { Text = "150", Value = "150" }, new SelectListItem { Text = "175", Value = "175" }, new SelectListItem { Text = "200", Value = "200" } }, new { @class = "form-control", id = "Kolicina" })
+                                <span class="text-danger" id="ErrorKolicina"></span>
+                            </div>
+                            <div class="form-group" id="tabletaPrePodne" style="display:none">
+                                @Html.LabelFor(m => m.PrePodne)
+                                @Html.DropDownListFor(m => m.PrePodne, new List<SelectListItem> { new SelectListItem { Text = "none", Value = "none" }, new SelectListItem { Text = "0", Value = "0" }, new SelectListItem { Text = "1", Value = "1" }, new SelectListItem { Text = "2", Value = "2" }, new SelectListItem { Text = "3", Value = "3" }, new SelectListItem { Text = "4", Value = "4" }, new SelectListItem { Text = "5", Value = "5" } }, new { @class = "form-control", id = "PrePodne" })
+                                <span class="text-danger" id="ErrorPrePodne"></span>
+                            </div>
+                            <div class="form-group" id="tabletaPoPodne" style="display:none">
+                                @Html.LabelFor(m => m.Popodne)
+                                @Html.DropDownListFor(m => m.Popodne, new List<SelectListItem> { new SelectListItem { Text = "none", Value = "none" }, new SelectListItem { Text = "0", Value = "0" }, new SelectListItem { Text = "1", Value = "1" }, new SelectListItem { Text = "2", Value = "2" }, new SelectListItem { Text = "3", Value = "3" }, new SelectListItem { Text = "4", Value = "4" }, new SelectListItem { Text = "5", Value = "5" } }, new { @class = "form-control", id = "Popodne" })
+                                <span class="text-danger" id="ErrorPopodne"></span>
+                            </div>
+                            <div class="form-group" id="tabletaUvece" style="display:none">
+                                @Html.LabelFor(m => m.Uvece)
+                                @Html.DropDownListFor(m => m.Uvece, new List<SelectListItem> { new SelectListItem { Text = "none", Value = "none" }, new SelectListItem { Text = "0", Value = "0" }, new SelectListItem { Text = "1", Value = "1" }, new SelectListItem { Text = "2", Value = "2" }, new SelectListItem { Text = "3", Value = "3" }, new SelectListItem { Text = "4", Value = "4" }, new SelectListItem { Text = "5", Value = "5" } }, new { @class = "form-control", id = "Uvece" })
+                                <span class="text-danger" id="ErrorUvece"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success btn-block">Obradi Recept</button>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close1">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        //dodato
+        /*$(document).ready(function () {
+            $("#close1").click(function () {
+                $("#ErrorBroj").text("");
+                $("#ErrorIzbor").text("");
+                $("#ErrorDnevno").text("");
+                $("#ErrorKolicina").text("");
+                $("#ErrorPrePodne").text("");
+                $("#ErrorPopodne").text("");
+                $("#ErrorUvece").text("");
+
+
+                $("#Broj").val("");
+                $("#Izbor").val("none");
+                $("#Dnevno").val("none");
+                $("#Kolicina").val("none");
+                $("#PrePodne").val("none");
+                $("#Popodne").val("none");
+                $("#Uvece").val("none");
+
+                $("#sirupDnevno").hide();
+                $("#sirupKolicina").hide();
+                $("#tabletaPrePodne").hide();
+                $("#tabletaPoPodne").hide();
+                $("#tabletaUvece").hide();
+            });
+        });
+        $(document).ready(function () {
+            $("#close2").click(function () {
+                $("#ErrorBroj").text("");
+                $("#ErrorIzbor").text("");
+                $("#ErrorDnevno").text("");
+                $("#ErrorKolicina").text("");
+                $("#ErrorPrePodne").text("");
+                $("#ErrorPopodne").text("");
+                $("#ErrorUvece").text("");
+
+                $("#Broj").val("");
+                $("#Izbor").val("none");
+                $("#Dnevno").val("none");
+                $("#Kolicina").val("none");
+                $("#PrePodne").val("none");
+                $("#Popodne").val("none");
+                $("#Uvece").val("none");
+
+                $("#sirupDnevno").hide();
+                $("#sirupKolicina").hide();
+                $("#tabletaPrePodne").hide();
+                $("#tabletaPoPodne").hide();
+                $("#tabletaUvece").hide();
+            });
+        });*/
+        $(document).ready(function () {
+            $("#Forma").submit(function (event) {
+                $("#ErrorBroj").text("");
+                $("#ErrorIzbor").text("");
+                $("#ErrorDnevno").text("");
+                $("#ErrorKolicina").text("");
+                $("#ErrorPrePodne").text("");
+                $("#ErrorPopodne").text("");
+                $("#ErrorUvece").text("");
+                if ($("#Broj").val() == "") {
+                    event.preventDefault();
+                    $("#ErrorBroj").text("morate uneti broj");
+                }
+                else if ($("#Izbor").val() == "none") {
+                    event.preventDefault();
+                    $("#ErrorIzbor").text("morate uneti izbor");
+                }
+                else {
+                    if ($("#tip").val() == "sirup") {
+                        if ($("#Dnevno").val() == "none") {
+                            event.preventDefault();
+                            $("#ErrorDnevno").text("morate uneti dnevni broj uzimanja sirupa");
+                        }
+                        else if ($("#Kolicina").val() == "none") {
+                            event.preventDefault();
+                            $("#ErrorKolicina").text("morate uneti dnevnu kolicinu svakog uzimanja");
+                        }
+                        else {
+                            $("#PrePodne").val(0);
+                            $("#Popodne").val(0);
+                            $("#Uvece").val(0);
+                            
+                        }
+                    }
+                    else {
+                        if ($("#PrePodne").val() == "none") {
+                            event.preventDefault();
+                            $("#ErrorPrePodne").text("morate uneti broj uzimanja tableta pre podne");
+                        }
+                        else if ($("#Popodne").val() == "none") {
+                            event.preventDefault();
+                            $("#ErrorPopodne").text("morate uneti broj uzimanja tableta po podne");
+                        }
+                        else if ($("#Uvece").val() == "none") {
+                            event.preventDefault();
+                            $("#ErrorUvece").text("morate uneti broj uzimanja tableta uvece");
+                        }
+                        else {
+                            $("#Dnevno").val(0);
+                            $("#Kolicina").val(0);
+                            
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+}

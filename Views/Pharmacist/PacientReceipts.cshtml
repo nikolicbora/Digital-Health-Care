@@ -1,0 +1,124 @@
+﻿@model List<DigitalnaApoteka.ViewModel.PharmacistViewModel.ReceptViewModel>
+@{
+    Layout = "Shared/_LayoutPage.cshtml";
+    ViewBag.Title = "Recepti";
+}
+<script>
+    function obradi(idR) {
+        var idL = $("#" + idR + " td select option:selected").val();
+        //alert(idR+ "-"+ idL);
+        $.ajax({
+                    type: "POST",
+                    url: "/Pharmacist/Obrada",
+                    data: '{idR: "' + idR +'","idL":"'+idL+ '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        //alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);
+                        //alert("idR: " + response.id);
+                        $("#" + response.id).remove();
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+    }
+</script>
+<h2>Recepti Pacijenta</h2>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group" style="border:1px solid;border-radius:4px">
+                <a href="#" class="list-group-item list-group-item-action active" style="background-color:#1cc139;border-color:#e74c3c">
+                    Dashboard
+                </a>
+                <a href="@Url.Action("Index","Pharmacist")" class="list-group-item list-group-item-action"><span class="badge badge-pill badge-primary">1</span> Pocetna</a>
+            </div>
+        </div>
+        <div class="col-md-9" style="overflow-x:scroll;overflow-x:scroll">
+            <h2>Tabela Recepata</h2>
+            <table class="table table-striped" id="recepti">
+                <thead>
+                    <tr>
+                        <th class="text-center">Naziv leka</th>
+                        <th class="text-center">Tip leka</th>
+                        <th class="text-center">Na Recept</th>
+                        <th class="text-center">Datum prepisivanja</th>
+                        <th class="text-center">Doziranje</th>
+                        <th class="text-center">Popust</th>
+                        <th class="text-center">Cena</th>
+                        <th class="text-center">Ukupna cena:</th>
+                        <th class="text-center">Zamena</th>
+                        <th class="text-center">Obrada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr id="@r.Recept.idRecept">
+                            <td>@r.Recept.Lek.Naziv</td>
+                            <td>@r.Recept.Lek.Tip.Naziv</td>
+                            <td>
+                                @if (r.Recept.Lek.NaRecept == 1)
+                                {
+                                    <text>DA</text>
+                                }
+                                else
+                                {
+                                    <text>NE</text>
+                                }
+                            </td>
+                            <td>@r.Recept.DatumIzdavanja.ToString("dd-MM-yyyy")</td>
+                            <td>
+                                @if (r.Recept.Lek.Tip.Naziv.Equals("sirup"))
+                                {
+                                    <ul>
+                                        <li>@r.Recept.DoziranjeSirup</li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <ul>
+                                        <li>Prepodne: @r.Recept.DoziranjePrepodne</li>
+                                        <li>Popodne: @r.Recept.DoziranjePopodne</li>
+                                        <li>Uvece: @r.Recept.DoziranjeUvece</li>
+                                    </ul>
+                                }
+                            </td>
+                            <td>@r.Recept.Lek.SnizenjeRecept</td>
+                            <td>@r.Recept.Lek.Cena</td>
+                            <td>
+                                @if (r.Recept.Lek.NaRecept == 1)
+                                {
+                                    <text>@Math.Round(@r.Recept.Lek.Cena * (100 - @r.Recept.Lek.SnizenjeRecept) / 100, 2)</text>
+                                }
+                                else
+                                {
+                                    <text>@r.Recept.Lek.Cena</text>
+                                }
+                            </td>
+                            <td>
+                                <select style="border-radius:16px;background-color:#28a745;color:white;padding:10px">
+                                    <option value="@r.Recept.idLek">Original:@r.Recept.Lek.Naziv</option>
+                                    @foreach (var z in r.Zamene)
+                                    {
+                                        <option value="@z.idLek">
+                                            Zamena:@z.Naziv
+                                        </option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <button class="btn btn-success" onclick="obradi('@r.Recept.idRecept')">Obrada Recepta</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
